@@ -26,4 +26,4 @@ jobs:
                 wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
                 chmod +x cloudflared
                 sudo mv cloudflared /usr/local/bin/
-                ssh -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" automations@ssh.ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && npm install --production"
+                ssh -4 -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" automations@ssh.ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && npm install --production"
