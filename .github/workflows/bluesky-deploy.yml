@@ -21,7 +21,6 @@ jobs:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
 
             - name: Deploy Bluesky Firehose to personal server
-              if: contains(github.event.commits[0].modified, 'playground-nodejs/src/services/firehose-consumer') || contains(github.event.commits[0].added, 'playground-nodejs/src/services/firehose-consumer')
 
               run: |
                 wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
