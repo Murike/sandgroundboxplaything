@@ -27,6 +27,7 @@ const mainMenuOptions = {
 // }
 
 async function main() {
+    console.log('#')
     const program = new Command();
     program
         .description("Hub for test applications")
