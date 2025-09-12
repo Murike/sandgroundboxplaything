@@ -1,0 +1,27 @@
+name: Bluesky Firehose Deploy
+
+on:
+    pull_request:
+        branches:
+            - main
+        paths:
+            - 'playground-nodejs/**'
+        types: [closed]
+
+jobs:
+    deploy-bluesky-firehose:
+        runs-on: ubuntu-latest
+        environment: production
+        if: github.event.pull_request.merged == true
+        steps:
+            - name: Checkout code
+            - uses: webfactory/ssh-agent@v0.7.0
+              with: 
+                ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
+
+            - name: Deploy Bluesky Firehose to personal server
+              if: contains(github.event.commits[0].modified, 'playground-nodejs/src/services/firehose-consumer') || contains(github.event.commits[0].added, 'playground-nodejs/src/services/firehose-consumer')
+
+              run: |
+              ssh -o StrictHostKeyChecking=no automations@ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && npm install --production"
+

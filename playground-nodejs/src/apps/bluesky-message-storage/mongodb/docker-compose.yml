@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: bsky-mongo
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./database:/data/db
+      - ./initdb:/docker-entrypoint-initdb.d
+    restart: unless-stopped

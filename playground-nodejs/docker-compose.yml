@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+    pdf-converter:
+        image: wteja/pdf-converter
+        ports:
+            - '5000:5000'
+        healthcheck:
+            test: ['CMD-SHELL', 'curl -sSf https://localhost:5000/ || exit 1']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - app-network
+
+    mongo-db:
+        image:
+        ports:
+            - '3050:3050'
+        networks:
+            - app-network
+
+    node-backend:
+        build: .
+        ports:
+            - '3000:3000'
+        depends_on:
+            pdf-converter:
+                condition: service_healthy
+        environment:
+            - PDF_CONVERTER_URL=HTTP://localhost:5000/convert
+        networks:
+            - app-network
+        command:
+            - sh
+            - -c
+            - |
+                while ! nc pdf-converter 5000; do
+                  echo "Waiting PDF converter..."
+                  sleep 2
+                done
+                npm run dev
+
+networks:
+    app-network:
+        driver: bridge
