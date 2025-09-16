@@ -20,8 +20,10 @@ jobs:
               with: 
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
 
-            - name: Deploy Bluesky Firehose to personal server
+            - name: Add SSH Host Key
+              run: ssh-keyscan -H ssh.ricardo-maurique.com.br >> ~/.ssh/known_hosts
 
+            - name: Deploy Bluesky Firehose to personal server
               run: |
                 echo "${{ secrets.SSH_PRIVATE_SERVER_KEY }}" > ~/.ssh/automations_id_rsa
                 chmod 600 ~/.ssh/automations_id_rsa
