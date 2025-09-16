@@ -26,4 +26,4 @@ jobs:
                 echo "${{ secrets.SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
                 echo "${{ secrets.SSH_PRIVATE_SERVER_KEY }}" > ~/.ssh/automations_id_rsa
                 chmod 600 ~/.ssh/automations_id_rsa
-                ssh -v -4 -i ~/.ssh/automations_id_rsa -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" automations@ssh.ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && npm install --production"
+                ssh -v -4 -i ~/.ssh/automations_id_rsa -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" automations@ssh.ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && cd playground-nodejs && npm install --production"
