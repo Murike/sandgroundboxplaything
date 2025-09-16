@@ -19,13 +19,11 @@ jobs:
             - uses: webfactory/ssh-agent@v0.7.0
               with: 
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
-
+            - name: Setup cloudflared
+              uses: AnimMouse/setup-cloudflared@v2
             - name: Deploy Bluesky Firehose to personal server
               run: |
                 echo "${{ secrets.SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
                 echo "${{ secrets.SSH_PRIVATE_SERVER_KEY }}" > ~/.ssh/automations_id_rsa
                 chmod 600 ~/.ssh/automations_id_rsa
-                wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
-                chmod +x cloudflared
-                sudo mv cloudflared /usr/local/bin/
                 ssh -v -4 -i ~/.ssh/automations_id_rsa -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" automations@ssh.ricardo-maurique.com.br "cd /opt/experiment-repository && git pull origin main && npm install --production"
