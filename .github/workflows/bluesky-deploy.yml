@@ -19,7 +19,9 @@ jobs:
             - uses: webfactory/ssh-agent@v0.7.0
               with: 
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
+
             - name: Deploy Bluesky Firehose to personal server
+
               run: |
                 echo "${{ secrets.SSH_PRIVATE_SERVER_KEY }}" > ~/.ssh/automations_id_rsa
                 chmod 600 ~/.ssh/automations_id_rsa
