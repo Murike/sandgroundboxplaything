@@ -21,8 +21,8 @@ jobs:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_SERVER_KEY }}
 
             - name: Add SSH Host Key
-              run: ssh-keyscan -H ssh.ricardo-maurique.com.br >> ~/.ssh/known_hosts
-
+              run: ssh-keyscan -o ProxyCommand="cloudflared access ssh --hostname ssh.ricardo-maurique.com.br" -H ssh.ricardo-maurique.com.br >> ~/.ssh/known_hosts
+ 
             - name: Deploy Bluesky Firehose to personal server
               run: |
                 echo "${{ secrets.SSH_PRIVATE_SERVER_KEY }}" > ~/.ssh/automations_id_rsa
